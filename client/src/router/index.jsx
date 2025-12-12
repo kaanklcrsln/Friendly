@@ -5,6 +5,13 @@ import ChatRoomPage from '../pages/ChatRoomPage';
 import ProfilePage from '../pages/ProfilePage';
 import AuthPage from '../pages/AuthPage';
 
+const AboutPage = () => (
+  <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
+    <h1>Hakkında</h1>
+    <p>Friendly WebGIS Platform</p>
+  </div>
+);
+
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
   { path: '/events', element: <EventDetailPage /> },
@@ -12,9 +19,7 @@ const router = createBrowserRouter([
   { path: '/chat/:id', element: <ChatRoomPage /> },
   { path: '/profile', element: <ProfilePage /> },
   { path: '/auth', element: <AuthPage /> },
-  { path: '/about', element: <div style={{ padding: '2rem' }}><h1>Hakkında</h1><p>Friendly WebGIS Platform</p></div> }
+  { path: '/about', element: <AboutPage /> }
 ]);
-
-export default router;
 
 export default router;

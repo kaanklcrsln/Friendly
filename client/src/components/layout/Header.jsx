@@ -1,5 +1,5 @@
 import styles from './Header.module.css';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth.jsx';
 
 export default function Header() {
   const { user, signOut } = useAuth();

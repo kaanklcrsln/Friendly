@@ -1,6 +1,6 @@
 import Button from '../components/common/Button';
 import Layout from '../components/layout/Layout';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth.jsx';
 import styles from './AuthPage.module.css';
 
 export default function AuthPage() {
