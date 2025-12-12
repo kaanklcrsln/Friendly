@@ -1,48 +1,57 @@
 import Button from '../components/common/Button';
+import Layout from '../components/layout/Layout';
 import { useAuth } from '../hooks/useAuth';
+import styles from './AuthPage.module.css';
 
 export default function AuthPage() {
   const { user, signInWithEmail, signUpWithEmail, signOut } = useAuth();
 
   const handleLogin = async () => {
-    const email = window.prompt('Enter your email');
-    const password = window.prompt('Enter your password');
+    const email = window.prompt('E-postaınızı girin');
+    const password = window.prompt('Şifre (en az 6 karakter)');
     if (email && password) {
       try {
         await signInWithEmail(email, password);
       } catch (err) {
-        alert('Login failed: ' + err.message);
+        alert('Giriş başarısız: ' + err.message);
       }
     }
   };
 
   const handleSignUp = async () => {
-    const email = window.prompt('Enter your email');
-    const password = window.prompt('Create a password (min 6 chars)');
+    const email = window.prompt('E-postaınızı girin');
+    const password = window.prompt('Şifre (en az 6 karakter)');
     if (email && password) {
       try {
         await signUpWithEmail(email, password);
-        alert('Account created!');
+        alert('Hesap oluşturuldu!');
       } catch (err) {
-        alert('Sign up failed: ' + err.message);
+        alert('Kayıt başarısız: ' + err.message);
       }
     }
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Auth</h2>
-      {user ? (
-        <>
-          <p>Signed in as {user.email}</p>
-          <Button onClick={signOut}>Sign out</Button>
-        </>
-      ) : (
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button onClick={handleLogin}>Sign in</Button>
-          <Button onClick={handleSignUp}>Sign up</Button>
+    <Layout>
+      <div className={styles.authContainer}>
+        <div className={styles.card}>
+          <h1>Friendly'e Hoşgeldiniz</h1>
+          
+          {user ? (
+            <div className={styles.userSection}>
+              <p>Giriş yaptı: <strong>{user.email}</strong></p>
+              <Button onClick={signOut}>Çıkış Yap</Button>
+            </div>
+          ) : (
+            <div className={styles.authSection}>
+              <div className={styles.buttonGroup}>
+                <Button onClick={handleLogin}>Giriş Yap</Button>
+                <Button onClick={handleSignUp}>Kayıt Ol</Button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </Layout>
   );
 }

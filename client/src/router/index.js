@@ -7,10 +7,14 @@ import AuthPage from '../pages/AuthPage';
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
+  { path: '/events', element: <EventDetailPage /> },
   { path: '/events/:id', element: <EventDetailPage /> },
   { path: '/chat/:id', element: <ChatRoomPage /> },
   { path: '/profile', element: <ProfilePage /> },
-  { path: '/auth', element: <AuthPage /> }
+  { path: '/auth', element: <AuthPage /> },
+  { path: '/about', element: <div style={{ padding: '2rem' }}><h1>Hakkında</h1><p>Friendly WebGIS Platform</p></div> }
 ]);
+
+export default router;
 
 export default router;

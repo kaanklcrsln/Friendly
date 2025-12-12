@@ -1,19 +1,248 @@
+:root {
+  /* Blue-Green */
+  --color-blue-green-50: #eaf6fb;
+  --color-blue-green-100: #d4edf7;
+  --color-blue-green-200: #aadcee;
+  --color-blue-green-300: #7fcae6;
+  --color-blue-green-400: #55b9dd;
+  --color-blue-green-500: #2aa7d5;
+  --color-blue-green-600: #2286aa;
+  --color-blue-green-700: #196480;
+  --color-blue-green-800: #114355;
+  --color-blue-green-900: #08212b;
+  --color-blue-green-950: #06171e;
+
+  /* Emerald */
+  --color-emerald-50: #eef6f0;
+  --color-emerald-100: #deede0;
+  --color-emerald-200: #bddbc1;
+  --color-emerald-300: #9cc9a2;
+  --color-emerald-400: #7ab884;
+  --color-emerald-500: #59a665;
+  --color-emerald-600: #478551;
+  --color-emerald-700: #36633c;
+  --color-emerald-800: #244228;
+  --color-emerald-900: #122114;
+  --color-emerald-950: #0c170e;
+
+  /* Faded Copper */
+  --color-faded-copper-50: #f6f1ef;
+  --color-faded-copper-100: #ece4df;
+  --color-faded-copper-200: #dac8be;
+  --color-faded-copper-300: #c7ad9e;
+  --color-faded-copper-400: #b5927d;
+  --color-faded-copper-500: #a2765d;
+  --color-faded-copper-600: #825f4a;
+  --color-faded-copper-700: #614738;
+  --color-faded-copper-800: #412f25;
+  --color-faded-copper-900: #201813;
+  --color-faded-copper-950: #17110d;
+
+  /* Tea Green */
+  --color-tea-green-50: #effaeb;
+  --color-tea-green-100: #dff4d7;
+  --color-tea-green-200: #bee9af;
+  --color-tea-green-300: #9ede87;
+  --color-tea-green-400: #7ed35f;
+  --color-tea-green-500: #5ec837;
+  --color-tea-green-600: #4ba02c;
+  --color-tea-green-700: #387821;
+  --color-tea-green-800: #255016;
+  --color-tea-green-900: #13280b;
+  --color-tea-green-950: #0d1c08;
+
+  /* Slate Grey */
+  --color-slate-grey-50: #eff2f5;
+  --color-slate-grey-100: #e0e6eb;
+  --color-slate-grey-200: #c1cdd7;
+  --color-slate-grey-300: #a2b4c3;
+  --color-slate-grey-400: #839aaf;
+  --color-slate-grey-500: #63819c;
+  --color-slate-grey-600: #50677c;
+  --color-slate-grey-700: #3c4e5d;
+  --color-slate-grey-800: #28343e;
+  --color-slate-grey-900: #141a1f;
+  --color-slate-grey-950: #0e1216;
+
+  /* Primary & Secondary */
+  --color-primary: var(--color-blue-green-500);
+  --color-primary-dark: var(--color-blue-green-700);
+  --color-primary-light: var(--color-blue-green-100);
+  
+  --color-secondary: var(--color-emerald-500);
+  --color-secondary-dark: var(--color-emerald-700);
+  --color-secondary-light: var(--color-emerald-100);
+
+  --color-accent: var(--color-tea-green-500);
+  --color-accent-dark: var(--color-tea-green-700);
+  
+  --color-neutral: var(--color-slate-grey-500);
+  --color-neutral-dark: var(--color-slate-grey-800);
+  --color-neutral-light: var(--color-slate-grey-50);
+
+  /* Semantic */
+  --color-success: var(--color-emerald-500);
+  --color-warning: var(--color-faded-copper-500);
+  --color-error: #ef4444;
+  --color-info: var(--color-blue-green-500);
+
+  /* Text & Background */
+  --color-text: var(--color-slate-grey-900);
+  --color-text-secondary: var(--color-slate-grey-600);
+  --color-bg: #ffffff;
+  --color-bg-secondary: var(--color-slate-grey-50);
+  --color-border: var(--color-slate-grey-200);
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Font sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background-color: #f6f7fb;
-  color: #111827;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }
 
 #root {
+  width: 100%;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-sm);
+}
+
+h1 { font-size: var(--font-size-3xl); }
+h2 { font-size: var(--font-size-2xl); }
+h3 { font-size: var(--font-size-xl); }
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Inputs */
+input, textarea, select {
+  font-family: inherit;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  transition: border-color var(--transition-fast);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(42, 167, 213, 0.1);
+}
+
+/* Utility classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-md {
+  gap: var(--spacing-md);
+}
+
+.p-md {
+  padding: var(--spacing-md);
+}
+
+.rounded-lg {
+  border-radius: var(--radius-lg);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
 }
