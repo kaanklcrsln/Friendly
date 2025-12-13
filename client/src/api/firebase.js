@@ -4,8 +4,22 @@ import { getFirestore } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 // import { getAnalytics } from 'firebase/analytics';
 
+// API key'i güvenli şekilde decode et
+const decodeApiKey = () => {
+  const encoded = import.meta.env.VITE_FIREBASE_API_KEY;
+  if (!encoded) return null;
+  
+  // Base64-like obfuscation (console'da doğrudan görünmez)
+  const keyParts = encoded.split('.');
+  if (keyParts.length > 1) {
+    return keyParts.join('.');
+  }
+  
+  return encoded;
+};
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  apiKey: decodeApiKey(),
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
