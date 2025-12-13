@@ -26,13 +26,14 @@ export default function LoginPage() {
       navigate('/');
     } catch (err) {
       const errorMessages = {
-        'auth/user-not-found': 'Bu e-posta ile kayıtlı kullanıcı bulunamadı',
-        'auth/wrong-password': 'Yanlış şifre',
+        'auth/user-not-found': 'E-posta veya şifre hatalı',
+        'auth/wrong-password': 'E-posta veya şifre hatalı',
         'auth/invalid-email': 'Geçersiz e-posta adresi',
+        'auth/invalid-credential': 'E-posta veya şifre hatalı. Lütfen tekrar deneyin',
         'auth/user-disabled': 'Bu hesap devre dışı bırakılmış',
         'auth/too-many-requests': 'Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyiniz',
       };
-      setError(errorMessages[err.code] || 'Giriş başarısız: ' + err.message);
+      setError(errorMessages[err.code] || 'Giriş yapılamadı. Lütfen tekrar deneyin');
     } finally {
       setLoading(false);
     }

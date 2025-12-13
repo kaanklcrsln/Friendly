@@ -1,11 +1,26 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth.jsx';
+import AddFriendModal from '../friends/AddFriendModal';
+import NotificationPanel from '../notifications/NotificationPanel';
+import ProfileModal from '../profile/ProfileModal';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [showAddFriend, setShowAddFriend] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const menuRef = useRef(null);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setIsOpen(false);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -20,59 +35,101 @@ export default function Navbar() {
     }
   }, [isOpen]);
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      setIsOpen(false);
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
-
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.container}>
-        <div className={styles.logo}>
-          <img src="/assets/friendly-logo_trans.png" alt="Friendly Logo" />
-        </div>
+    <>
+      <nav className={styles.navbar}>
+        <div className={styles.container}>
+          <div className={styles.logo}>
+            <img src="/assets/friendly-logo_trans.png" alt="Friendly Logo" />
+          </div>
 
-        <div className={styles.menu} ref={menuRef}>
-          <button
-            className={styles.profileBtn}
-            onClick={() => setIsOpen(!isOpen)}
-            title="Profil"
-          >
-            👤
-          </button>
+          <div className={styles.actions}>
+            {/* Bildirimler Butonu */}
+            <button 
+              className={styles.iconBtn} 
+              title="Bildirimler"
+              onClick={() => {
+                setShowNotifications(!showNotifications);
+                setShowAddFriend(false);
+              }}
+            >
+              🔔
+            </button>
 
-          {isOpen && (
-            <div className={styles.dropdown}>
-              {user && (
-                <>
-                  <div className={styles.userInfo}>
-                    <p className={styles.userName}>
-                      {user.email?.split('@')[0] || 'Kullanıcı'}
-                    </p>
-                    <p className={styles.userEmail}>{user.email}</p>
-                  </div>
+            {/* Arkadaş Ekle Butonu */}
+            <button 
+              className={styles.iconBtn} 
+              title="Arkadaş Ekle"
+              onClick={() => {
+                setShowAddFriend(true);
+                setShowNotifications(false);
+              }}
+            >
+              👥
+            </button>
+
+            {/* Profil Menüsü */}
+            <div className={styles.menu} ref={menuRef}>
+              <button
+                className={styles.profileBtn}
+                onClick={() => setIsOpen(!isOpen)}
+                title="Profil"
+              >
+                👤
+              </button>
+
+              {isOpen && (
+                <div className={styles.dropdown}>
+                  {user && (
+                    <>
+                      <div className={styles.userInfo}>
+                        <p className={styles.userName}>
+                          {user.displayName || user.email?.split('@')[0] || 'Kullanıcı'}
+                        </p>
+                        <p className={styles.userEmail}>{user.email}</p>
+                      </div>
+                      <hr className={styles.divider} />
+                    </>
+                  )}
+
+                  <button 
+                    className={styles.menuItem} 
+                    onClick={() => {
+                      setIsOpen(false);
+                      setShowProfile(true);
+                    }}
+                  >
+                    ✏️ Profili Düzenle
+                  </button>
+                  <button className={styles.menuItem} onClick={() => setIsOpen(false)}>
+                    ⚙️ Ayarlar
+                  </button>
                   <hr className={styles.divider} />
-                </>
+                  <button className={styles.menuItemDanger} onClick={handleLogout}>
+                    🚪 Çıkış Yap
+                  </button>
+                </div>
               )}
-
-              <button className={styles.menuItem} onClick={() => setIsOpen(false)}>
-                ✏️ Profili Düzenle
-              </button>
-              <button className={styles.menuItem} onClick={() => setIsOpen(false)}>
-                ⚙️ Ayarlar
-              </button>
-              <hr className={styles.divider} />
-              <button className={styles.menuItemDanger} onClick={handleLogout}>
-                🚪 Çıkış Yap
-              </button>
             </div>
-          )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Modals */}
+      <AddFriendModal 
+        isOpen={showAddFriend} 
+        onClose={() => setShowAddFriend(false)} 
+      />
+      
+      <NotificationPanel 
+        isOpen={showNotifications} 
+        onClose={() => setShowNotifications(false)} 
+      />
+      
+      <ProfileModal 
+        isOpen={showProfile} 
+        onClose={() => setShowProfile(false)} 
+      />
+    </>
   );
 }

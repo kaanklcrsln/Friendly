@@ -1,0 +1,269 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h3 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.25rem;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #718096;
+  padding: 0;
+  line-height: 1;
+}
+
+.closeBtn:hover {
+  color: #2d3748;
+}
+
+.searchContainer {
+  margin-bottom: 16px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.message {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.success {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.error {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.results {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.loading, .noResults {
+  text-align: center;
+  color: #718096;
+  padding: 20px;
+}
+
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.userItem:hover {
+  border-color: #667eea;
+  background: #f7fafc;
+}
+
+.userItem.selected {
+  border-color: #667eea;
+  background: #ebf4ff;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userDetails {
+  flex: 1;
+}
+
+.userName {
+  margin: 0;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.userEmail {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+.userUniversity {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #667eea;
+}
+
+.addBtn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.addBtn:hover {
+  background: #5a67d8;
+}
+
+.sentBadge {
+  color: #38a169;
+  font-size: 0.9rem;
+}
+
+.profilePreview {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f7fafc;
+  border-radius: 12px;
+  border: 2px solid #667eea;
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.previewHeader h4 {
+  margin: 0;
+  color: #667eea;
+}
+
+.previewHeader button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #718096;
+}
+
+.previewContent {
+  text-align: center;
+}
+
+.previewAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+}
+
+.previewAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewContent h3 {
+  margin: 0 0 4px;
+  color: #2d3748;
+}
+
+.previewContent p {
+  margin: 4px 0;
+  color: #718096;
+}
+
+.bio {
+  font-style: italic;
+  color: #4a5568 !important;
+  margin-top: 12px !important;
+}
+
+.sendRequestBtn {
+  margin-top: 16px;
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.sendRequestBtn:hover {
+  background: #5a67d8;
+}
