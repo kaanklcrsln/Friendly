@@ -3,17 +3,32 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #d9ebff;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: url('/Friendly/assets/login-background.png') center/cover fixed;
+  background-color: #d9ebff;
   padding: var(--spacing-lg);
+  position: relative;
+}
+
+.authContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(217, 235, 255, 0.8);
+  z-index: 0;
+}
+
+.authContainer > * {
+  position: relative;
+  z-index: 1;
 }
 
 .authCard {
   background: white;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 420px;
   max-height: 90vh;
@@ -21,6 +36,13 @@
   padding: var(--spacing-lg) var(--spacing-xl);
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+:global(.dark-mode) .authCard {
+  background: #2d3748;
+  color: #c3dcf7;
 }
 
 .authHeader {

@@ -1,0 +1,7 @@
+{
+  "homepage": "https://kaanklcrsln.github.io/Friendly/",
+  "scripts": {
+    "predeploy": "npm run build --workspace client",
+    "deploy": "gh-pages -d client/dist"
+  }
+}

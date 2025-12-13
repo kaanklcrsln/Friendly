@@ -75,7 +75,7 @@ export default function RegisterPage() {
     <div className={styles.authContainer}>
       <div className={styles.authCard}>
         <div className={styles.authHeader}>
-          <img src="/assets/friendly-logo_trans.png" alt="Friendly Logo" className={styles.logo} />
+          <img src="/Friendly/assets/friendly-logo_trans.png" alt="Friendly Logo" className={styles.logo} />
    
         </div>
 

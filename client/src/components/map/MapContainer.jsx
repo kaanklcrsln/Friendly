@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, update } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
+import { useAuth } from '../../hooks/useAuth';
 import styles from './MapContainer.module.css';
 
 export default function MapContainer() {
@@ -9,6 +10,7 @@ export default function MapContainer() {
   const [mapType, setMapType] = useState('roadmap');
   const [events, setEvents] = useState([]);
   const markersRef = useRef([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -82,7 +84,7 @@ export default function MapContainer() {
 
   // Firebase'den etkinlikleri yükle
   useEffect(() => {
-    const eventsRef = ref(rtdb, 'etkinlikler');
+    const eventsRef = ref(rtdb, 'events');
     const unsubscribe = onValue(eventsRef, (snapshot) => {
       const eventsData = [];
       if (snapshot.exists()) {
@@ -113,8 +115,16 @@ export default function MapContainer() {
     // Yeni markerları ekle
     events.forEach(event => {
       if (event.coordinates) {
+        // Koordinatları normalize et (Firebase'den gelen veri lat/lng şeklinde)
+        const position = {
+          lat: typeof event.coordinates.lat === 'function' ? event.coordinates.lat() : event.coordinates.lat,
+          lng: typeof event.coordinates.lng === 'function' ? event.coordinates.lng() : event.coordinates.lng
+        };
+
+        const userParticipationStatus = user && event.participation ? event.participation[user.uid] : null;
+
         const marker = new window.google.maps.Marker({
-          position: event.coordinates,
+          position: position,
           map: mapInstanceRef.current,
           title: event.title,
           icon: {
@@ -129,34 +139,66 @@ export default function MapContainer() {
         });
 
         // InfoWindow ekle
-        const infoWindow = new window.google.maps.InfoWindow({
-          content: `
-            <div style="padding: 12px; min-width: 220px; font-family: 'Nunito', sans-serif;">
-              <h3 style="margin: 0 0 8px 0; color: #2d3748; font-size: 16px;">${event.title}</h3>
-              <p style="margin: 4px 0; color: #4a5568; font-size: 14px;">${event.description}</p>
-              <p style="margin: 6px 0; font-weight: bold; color: #4a7ab5; font-size: 13px;">📍 ${event.location}</p>
-              <div style="display: flex; gap: 12px; margin: 6px 0; font-size: 13px; color: #4a5568;">
-                <span>📅 ${event.date}</span>
-                <span>⏰ ${event.time}</span>
-              </div>
-              <p style="margin: 6px 0 0 0; color: #4a5568; font-size: 13px;">
-                👥 ${event.participantCount || 1} kişi katılıyor
-              </p>
-              <p style="margin: 8px 0 0 0; padding: 4px 8px; background: #f0f9ff; border-radius: 4px; font-size: 12px; color: #1e40af;">
-                ${event.category} kategorisinde
-              </p>
+        const infoWindowContent = `
+          <div style="padding: 12px; min-width: 250px; font-family: Arial, sans-serif;">
+            <h3 style="margin: 0 0 8px 0; color: #2d3748; font-size: 14px;">${event.title}</h3>
+            <p style="margin: 4px 0; color: #4a5568; font-size: 12px;">${event.description}</p>
+            <p style="margin: 4px 0; font-weight: bold; color: #4a7ab5; font-size: 12px;">📍 ${event.location}</p>
+            <p style="margin: 4px 0; color: #4a5568; font-size: 12px;">📅 ${event.date} | ⏰ ${event.time}</p>
+            <p style="margin: 8px 0 0 0; color: #4a5568; font-size: 12px;">👥 ${event.participantCount || 1} kişi</p>
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button id="approveBtn-${event.id}" style="flex: 1; padding: 6px 8px; border: none; border-radius: 4px; background: ${userParticipationStatus === 'approved' ? '#4a7ab5' : '#e2e8f0'}; color: ${userParticipationStatus === 'approved' ? 'white' : '#2d3748'}; cursor: pointer; font-size: 11px; font-weight: 500;">✓ Katılacağım</button>
+              <button id="rejectBtn-${event.id}" style="flex: 1; padding: 6px 8px; border: none; border-radius: 4px; background: ${userParticipationStatus === 'rejected' ? '#e53e3e' : '#e2e8f0'}; color: ${userParticipationStatus === 'rejected' ? 'white' : '#2d3748'}; cursor: pointer; font-size: 11px; font-weight: 500;">✕ Katılmayacağım</button>
             </div>
-          `
+          </div>
+        `;
+
+        const infoWindow = new window.google.maps.InfoWindow({
+          content: infoWindowContent
         });
 
         marker.addListener('click', () => {
           infoWindow.open(mapInstanceRef.current, marker);
+          
+          // İkonlara event listener ekle
+          setTimeout(() => {
+            const approveBtn = document.getElementById(`approveBtn-${event.id}`);
+            const rejectBtn = document.getElementById(`rejectBtn-${event.id}`);
+            
+            if (approveBtn) {
+              approveBtn.addEventListener('click', async () => {
+                if (user) {
+                  try {
+                    await update(ref(rtdb, `events/${event.id}`), {
+                      [`participation/${user.uid}`]: 'approved'
+                    });
+                  } catch (error) {
+                    console.error('Katılım durumu güncellenirken hata:', error);
+                  }
+                }
+              });
+            }
+            
+            if (rejectBtn) {
+              rejectBtn.addEventListener('click', async () => {
+                if (user) {
+                  try {
+                    await update(ref(rtdb, `events/${event.id}`), {
+                      [`participation/${user.uid}`]: 'rejected'
+                    });
+                  } catch (error) {
+                    console.error('Katılım durumu güncellenirken hata:', error);
+                  }
+                }
+              });
+            }
+          }, 0);
         });
 
         markersRef.current.push(marker);
       }
     });
-  }, [events]);
+  }, [events, user]);
 
   const changeMapType = (type) => {
     setMapType(type);

@@ -34,39 +34,18 @@ export default function BottomBar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) {
-      alert('Etkinlik oluşturmak için giriş yapmalısınız');
-      return;
-    }
-
-    if (!formData.title || !formData.description || !formData.date || !formData.time || !formData.location) {
-      alert('Lütfen tüm alanları doldurun');
-      return;
-    }
+    if (!user) return;
 
     try {
       const eventData = {
-        title: formData.title,
-        description: formData.description,
-        date: formData.date,
-        time: formData.time,
-        location: formData.location,
-        category: formData.category,
-        coordinates: formData.coordinates,
+        ...formData,
         createdBy: user.uid,
-        createdAt: Date.now(),
-        participants: { [user.uid]: true },
-        participantCount: 1,
-        status: 'active'
+        createdAt: new Date().toISOString(),
+        participation: { [user.uid]: 'approved' },
+        participantCount: 1
       };
 
-      console.log('Etkinlik verisi gönderiliyor:', eventData);
-      
-      const eventsRef = ref(rtdb, 'etkinlikler');
-      await push(eventsRef, eventData);
-      
-      console.log('Etkinlik başarıyla oluşturuldu');
-      alert('Etkinlik başarıyla oluşturuldu!');
+      await push(ref(rtdb, 'events'), eventData);
       
       // Formu sıfırla ve modalı kapat
       setFormData({
@@ -81,12 +60,6 @@ export default function BottomBar() {
       setShowModal(false);
     } catch (error) {
       console.error('Etkinlik oluşturulurken hata:', error);
-      
-      if (error.code === 'PERMISSION_DENIED') {
-        alert('Etkinlik oluşturma izni yok. Firebase Rules\'ı kontrol edin.');
-      } else {
-        alert('Etkinlik oluşturulurken bir hata oluştu: ' + error.message);
-      }
     }
   };
 
@@ -99,7 +72,7 @@ export default function BottomBar() {
         onClick={() => setShowModal(true)}
         title="Etkinlik Oluştur"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className={styles.floatingBtnIcon}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={styles.floatingBtnIcon}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
       </button>
