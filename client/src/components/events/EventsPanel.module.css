@@ -16,7 +16,7 @@
 .header {
   padding: var(--spacing-md);
   border-bottom: 1px solid var(--color-border);
-  background: #d9ebff;
+  background: #D9EBFF;
 }
 
 :global(.dark-mode) .header {
@@ -27,7 +27,7 @@
 .header h2 {
   margin: 0;
   font-size: var(--font-size-lg);
-  color: var(--color-primary);
+  color: #4a7ab5;
 }
 
 :global(.dark-mode) .header h2 {
@@ -96,6 +96,25 @@
   color: #c3dcf7;
 }
 
+.attendeesWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.attendeesIcon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+:global(.dark-mode) .attendeesIcon {
+  color: #c3dcf7;
+}
+
 .description {
   margin: 0 0 var(--spacing-sm) 0;
   font-size: var(--font-size-xs);
@@ -116,6 +135,18 @@
   gap: var(--spacing-xs);
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
+}
+
+.detailIcon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+:global(.dark-mode) .detailIcon {
+  color: #c3dcf7;
 }
 
 .icon {

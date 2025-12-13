@@ -1,8 +1,94 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { ref, push } from 'firebase/database';
+import { rtdb } from '../../api/firebase';
+import { useAuth } from '../../hooks/useAuth';
+import AddressSelectionModal from '../modals/AddressSelectionModal';
 import styles from './BottomBar.module.css';
 
 export default function BottomBar() {
   const [showModal, setShowModal] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    date: '',
+    time: '',
+    location: '',
+    category: 'Sosyal',
+    coordinates: null
+  });
+  const { user } = useAuth();
+
+  const handleLocationSelect = (locationData) => {
+    setFormData(prev => ({
+      ...prev,
+      location: locationData.fullAddress,
+      coordinates: locationData.coordinates
+    }));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      alert('Etkinlik oluşturmak için giriş yapmalısınız');
+      return;
+    }
+
+    if (!formData.title || !formData.description || !formData.date || !formData.time || !formData.location) {
+      alert('Lütfen tüm alanları doldurun');
+      return;
+    }
+
+    try {
+      const eventData = {
+        title: formData.title,
+        description: formData.description,
+        date: formData.date,
+        time: formData.time,
+        location: formData.location,
+        category: formData.category,
+        coordinates: formData.coordinates,
+        createdBy: user.uid,
+        createdAt: Date.now(),
+        participants: { [user.uid]: true },
+        participantCount: 1,
+        status: 'active'
+      };
+
+      console.log('Etkinlik verisi gönderiliyor:', eventData);
+      
+      const eventsRef = ref(rtdb, 'etkinlikler');
+      await push(eventsRef, eventData);
+      
+      console.log('Etkinlik başarıyla oluşturuldu');
+      alert('Etkinlik başarıyla oluşturuldu!');
+      
+      // Formu sıfırla ve modalı kapat
+      setFormData({
+        title: '',
+        description: '',
+        date: '',
+        time: '',
+        location: '',
+        category: 'Sosyal',
+        coordinates: null
+      });
+      setShowModal(false);
+    } catch (error) {
+      console.error('Etkinlik oluşturulurken hata:', error);
+      
+      if (error.code === 'PERMISSION_DENIED') {
+        alert('Etkinlik oluşturma izni yok. Firebase Rules\'ı kontrol edin.');
+      } else {
+        alert('Etkinlik oluşturulurken bir hata oluştu: ' + error.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -13,48 +99,96 @@ export default function BottomBar() {
         onClick={() => setShowModal(true)}
         title="Etkinlik Oluştur"
       >
-        +
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className={styles.floatingBtnIcon}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
       </button>
 
       {showModal && (
         <div className={styles.modal} onClick={() => setShowModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <h2>Etkinlik Oluştur</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
                 <label>Başlık</label>
-                <input type="text" placeholder="Etkinlik başlığı" />
+                <input 
+                  type="text" 
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  placeholder="Etkinlik başlığı" 
+                  required 
+                />
               </div>
 
               <div className={styles.formGroup}>
                 <label>Açıklama</label>
-                <textarea placeholder="Etkinliğin açıklaması" rows="4"></textarea>
+                <textarea 
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  placeholder="Etkinliğin açıklaması" 
+                  rows="4"
+                  required
+                ></textarea>
               </div>
 
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
                   <label>Tarih</label>
-                  <input type="date" />
+                  <input 
+                    type="date" 
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    required 
+                  />
                 </div>
                 <div className={styles.formGroup}>
                   <label>Saat</label>
-                  <input type="time" />
+                  <input 
+                    type="time" 
+                    name="time"
+                    value={formData.time}
+                    onChange={handleInputChange}
+                    required 
+                  />
                 </div>
               </div>
 
               <div className={styles.formGroup}>
                 <label>Konum</label>
-                <input type="text" placeholder="Ankara, Çankaya" />
+                <div className={styles.locationInputWrapper}>
+                  <input 
+                    type="text" 
+                    name="location"
+                    value={formData.location}
+                    placeholder={formData.location || "Konum seçmek için tıklayın"} 
+                    readOnly
+                    className={styles.locationInput}
+                  />
+                  <button
+                    type="button"
+                    className={styles.locationBtn}
+                    onClick={() => setShowAddressModal(true)}
+                  >
+                    📍 Seç
+                  </button>
+                </div>
               </div>
 
               <div className={styles.formGroup}>
                 <label>Kategori</label>
-                <select>
-                  <option>Sosyal</option>
-                  <option>Spor</option>
-                  <option>Eğitim</option>
-                  <option>Sanat</option>
-                  <option>Diğer</option>
+                <select 
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                >
+                  <option value="Sosyal">Sosyal</option>
+                  <option value="Spor">Spor</option>
+                  <option value="Eğitim">Eğitim</option>
+                  <option value="Sanat">Sanat</option>
+                  <option value="Diğer">Diğer</option>
                 </select>
               </div>
 
@@ -74,6 +208,12 @@ export default function BottomBar() {
           </div>
         </div>
       )}
+
+      <AddressSelectionModal
+        isOpen={showAddressModal}
+        onClose={() => setShowAddressModal(false)}
+        onLocationSelect={handleLocationSelect}
+      />
     </>
   );
 }

@@ -136,6 +136,16 @@
   font-weight: 500;
   color: var(--color-text-secondary);
   transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tabIcon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5;
 }
 
 .tab:hover {

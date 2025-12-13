@@ -41,15 +41,27 @@
   background: transparent;
   border: 2px solid var(--color-primary);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 20px;
+  padding: 0;
   transition: all var(--transition-fast);
-  position: relative;
+  color: var(--color-primary);
+}
+
+:global(.dark-mode) .iconBtn {
+  color: #c3dcf7;
+  border-color: #c3dcf7;
+}
+
+.iconBtn svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 2;
 }
 
 .iconBtn:hover {
@@ -87,14 +99,27 @@
   background: transparent;
   border: 2px solid var(--color-primary);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 20px;
   transition: all var(--transition-fast);
+  padding: 0;
+  color: var(--color-primary);
+}
+
+:global(.dark-mode) .profileBtn {
+  color: #c3dcf7;
+  border-color: #c3dcf7;
+}
+
+.profileBtn svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 2;
 }
 
 .profileBtn:hover {

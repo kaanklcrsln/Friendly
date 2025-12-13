@@ -1,4 +1,9 @@
 :root {
+  /* Fonts */
+  --font-primary: 'Nunito', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-mono: 'Courier Prime', monospace;
+  
   /* Blue-Green */
   --color-blue-green-50: #eaf6fb;
   --color-blue-green-100: #d4edf7;
@@ -141,9 +146,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-text);
@@ -161,6 +164,7 @@ body {
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: var(--spacing-sm);
@@ -169,6 +173,10 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: var(--font-size-3xl); }
 h2 { font-size: var(--font-size-2xl); }
 h3 { font-size: var(--font-size-xl); }
+
+code, pre {
+  font-family: var(--font-mono);
+}
 
 p {
   margin-bottom: var(--spacing-md);

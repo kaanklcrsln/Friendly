@@ -1,3 +1,9 @@
+.mapWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .mapContainer {
   width: 100%;
   height: 100%;
@@ -5,18 +11,81 @@
   overflow: hidden;
 }
 
-.mapContainer :global(.ol-viewport) {
-  background: #d9ebff;
+/* Layer Control - Top Right */
+.layerControl {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-:global(.dark-mode) .mapContainer :global(.ol-viewport) {
+:global(.dark-mode) .layerControl {
   background: #2d3748;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.mapContainer :global(.ol-attribution) {
-  display: none;
+.layerBtn {
+  background: white;
+  border: 2px solid #d9ebff;
+  color: var(--color-text);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
 }
 
-.mapContainer :global(.ol-zoom) {
-  display: none;
+:global(.dark-mode) .layerBtn {
+  background: #1b1f3b;
+  border-color: #4a7ab5;
+  color: #c3dcf7;
+}
+
+.layerBtn:hover {
+  background: #d9ebff;
+  border-color: #4a7ab5;
+  color: var(--color-text);
+}
+
+:global(.dark-mode) .layerBtn:hover {
+  background: #4a7ab5;
+  color: white;
+}
+
+.layerBtn.active {
+  background: #4a7ab5;
+  border-color: #4a7ab5;
+  color: white;
+}
+
+:global(.dark-mode) .layerBtn.active {
+  background: #c3dcf7;
+  color: #1b1f3b;
+}
+
+/* Footer Attribution - Bottom Right */
+.mapFooter {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--color-text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+:global(.dark-mode) .mapFooter {
+  background: #2d3748;
+  color: #c3dcf7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }

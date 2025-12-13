@@ -1,0 +1,279 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+}
+
+:global(.dark-mode) .modal {
+  background: #2d3748;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.splitLayout {
+  display: flex;
+  height: 600px;
+}
+
+@media (max-width: 768px) {
+  .splitLayout {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+/* Sol Panel - Form */
+.formPanel {
+  flex: 0 0 350px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+}
+
+:global(.dark-mode) .formPanel {
+  background: #2d3748;
+  border-right-color: #4a5568;
+}
+
+@media (max-width: 768px) {
+  .formPanel {
+    flex: none;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #4a7ab5;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #d9ebff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: var(--font-primary);
+  background: white;
+  color: var(--color-text);
+  transition: all var(--transition-fast);
+}
+
+:global(.dark-mode) .input {
+  background: #1b1f3b;
+  border-color: #4a5568;
+  color: #c3dcf7;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4a7ab5;
+  box-shadow: 0 0 0 3px rgba(74, 122, 181, 0.1);
+}
+
+.input::placeholder {
+  color: #a0aec0;
+}
+
+:global(.dark-mode) .input::placeholder {
+  color: #718096;
+}
+
+.input:focus::placeholder {
+  color: transparent;
+}
+
+.selectedAddress {
+  background: #f0f9ff;
+  border: 2px solid #d9ebff;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+:global(.dark-mode) .selectedAddress {
+  background: #1e293b;
+  border-color: #4a7ab5;
+}
+
+.selectedAddress h4 {
+  margin: 0 0 8px 0;
+  color: #4a7ab5;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+:global(.dark-mode) .selectedAddress h4 {
+  color: #c3dcf7;
+}
+
+.selectedAddress p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.mapInstructions {
+  background: #fefce8;
+  border: 2px solid #fbbf24;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 16px 0;
+}
+
+:global(.dark-mode) .mapInstructions {
+  background: #1e1b16;
+  border-color: #d97706;
+}
+
+.mapInstructions p {
+  margin: 0 0 8px 0;
+  color: #92400e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+:global(.dark-mode) .mapInstructions p {
+  color: #fbbf24;
+}
+
+.mapInstructions ul {
+  margin: 0;
+  padding-left: 16px;
+  color: #78716c;
+  font-size: 12px;
+}
+
+:global(.dark-mode) .mapInstructions ul {
+  color: #d6d3d1;
+}
+
+.mapInstructions li {
+  margin-bottom: 4px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.cancelBtn, .confirmBtn {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cancelBtn {
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  color: #4a5568;
+}
+
+:global(.dark-mode) .cancelBtn {
+  background: #4a5568;
+  border-color: #718096;
+  color: #e2e8f0;
+}
+
+.cancelBtn:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+}
+
+:global(.dark-mode) .cancelBtn:hover {
+  background: #718096;
+  border-color: #a0aec0;
+}
+
+.confirmBtn {
+  background: #4a7ab5;
+  border: 2px solid #4a7ab5;
+  color: white;
+}
+
+.confirmBtn:hover:not(:disabled) {
+  background: #3d6ba3;
+  border-color: #3d6ba3;
+  transform: translateY(-1px);
+}
+
+.confirmBtn:disabled {
+  background: #cbd5e0;
+  border-color: #cbd5e0;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+:global(.dark-mode) .confirmBtn:disabled {
+  background: #4a5568;
+  border-color: #4a5568;
+  color: #718096;
+}
+
+/* Sağ Panel - Harita */
+.mapPanel {
+  flex: 1;
+  background: #f7fafc;
+}
+
+:global(.dark-mode) .mapPanel {
+  background: #1b1f3b;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .mapPanel {
+    height: 300px;
+  }
+}
