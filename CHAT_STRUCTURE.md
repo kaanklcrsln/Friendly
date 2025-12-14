@@ -5,25 +5,24 @@ DATABASE STRUCTURE:
 ==================
 
 /chat
-  /kişiler
-    /genel
-      /mesajlar
+  /general
+    /messages
+      {messageId}:
+        - text: "message content"
+        - userId: "user_uid"
+        - userEmail: "user@email.com"
+        - timestamp: "2024-12-13T..."
+        - displayName: "username"
+  
+  /private
+    /messages
+      /{conversationId}
         {messageId}:
           - text: "message content"
           - userId: "user_uid"
           - userEmail: "user@email.com"
           - timestamp: "2024-12-13T..."
           - displayName: "username"
-    
-    /özel
-      /mesajlar
-        /{conversationId}
-          {messageId}:
-            - text: "message content"
-            - userId: "user_uid"
-            - userEmail: "user@email.com"
-            - timestamp: "2024-12-13T..."
-            - displayName: "username"
 
 /users
   /{userId}
@@ -40,27 +39,25 @@ SECURITY RULES:
 {
   "rules": {
     "chat": {
-      "general": {
-        ".read": "auth != null",
-        ".write": "auth != null",
-        "$messageId": {
-          ".write": "root.child('chat/general').child($messageId).child('userId').val() === auth.uid || !data.exists()"
-        }
-      },
-      "private": {
-        "$conversationId": {
-          ".read": "root.child('chat/private').child($conversationId).child('participants').child(auth.uid).exists()",
-          ".write": "root.child('chat/private').child($conversationId).child('participants').child(auth.uid).exists()",
-          "messages": {
-            ".read": "root.child('chat/private').child($conversationId).child('participants').child(auth.uid).exists()",
-            ".write": "root.child('chat/private').child($conversationId).child('participants').child(auth.uid).exists()",
+      "kişiler": {
+        "genel": {
+          "mesajlar": {
+            ".read": "auth != null",
+            ".write": "auth != null",
             "$messageId": {
-              ".write": "root.child('chat/private').child($conversationId).child('messages').child($messageId).child('userId').val() === auth.uid || !data.exists()"
+              ".write": "root.child('chat/kişiler/genel/mesajlar').child($messageId).child('userId').val() === auth.uid || !data.exists()"
             }
-          },
-          "participants": {
-            ".read": "root.child('chat/private').child($conversationId).child('participants').child(auth.uid).exists()",
-            ".write": false
+          }
+        },
+        "özel": {
+          "mesajlar": {
+            "$conversationId": {
+              ".read": "auth != null",
+              ".write": "auth != null",
+              "$messageId": {
+                ".write": "root.child('chat/kişiler/özel/mesajlar').child($conversationId).child($messageId).child('userId').val() === auth.uid || !data.exists()"
+              }
+            }
           }
         }
       }
