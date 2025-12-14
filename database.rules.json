@@ -1,0 +1,47 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid == $uid",
+        "friends": {
+          "$friendId": {
+            ".write": "auth != null && (auth.uid == $uid || auth.uid == $friendId)"
+          }
+        }
+      }
+    },
+    "events": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$eventId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "chat": {
+      "general": {
+        "messages": {
+          ".read": "auth != null",
+          ".write": "auth != null",
+          "$messageId": {
+            ".read": "auth != null",
+            ".write": "auth != null"
+          }
+        }
+      },
+      "private": {
+        "messages": {
+          "$conversationId": {
+            ".read": "auth != null",
+            ".write": "auth != null",
+            "$messageId": {
+              ".read": "auth != null",
+              ".write": "auth != null"
+            }
+          }
+        }
+      }
+    }
+  }
+}

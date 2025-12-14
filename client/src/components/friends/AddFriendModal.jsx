@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { rtdb } from '../../api/firebase';
-import { ref, get, push, set } from 'firebase/database';
+import { ref, get, push, set, onValue } from 'firebase/database';
 import styles from './AddFriendModal.module.css';
 
 export default function AddFriendModal({ isOpen, onClose }) {
@@ -13,33 +13,33 @@ export default function AddFriendModal({ isOpen, onClose }) {
   const [message, setMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
 
-  // Tüm kullanıcıları yükle
+  // Tüm kullanıcıları yükle (realtime listener)
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || !user) return;
     
-    const loadUsers = async () => {
-      try {
-        const usersRef = ref(rtdb, 'users');
-        const snapshot = await get(usersRef);
-        
-        if (snapshot.exists()) {
-          const users = [];
-          snapshot.forEach((child) => {
-            if (child.key !== user?.uid) {
-              users.push({ uid: child.key, ...child.val() });
-            }
-          });
-          setAllUsers(users);
-          setSearchResults(users);
-        }
-      } catch (error) {
-        console.error('Kullanıcılar yüklenirken hata:', error);
-      } finally {
-        setLoading(false);
+    setLoading(true);
+    const usersRef = ref(rtdb, 'users');
+    
+    const unsubscribe = onValue(usersRef, (snapshot) => {
+      const users = [];
+      
+      if (snapshot.exists()) {
+        snapshot.forEach((child) => {
+          if (child.key !== user.uid) {
+            users.push({ uid: child.key, ...child.val() });
+          }
+        });
       }
-    };
+      
+      setAllUsers(users);
+      setSearchResults(users);
+      setLoading(false);
+    }, (error) => {
+      console.error('Kullanıcılar yüklenirken hata:', error);
+      setLoading(false);
+    });
 
-    loadUsers();
+    return () => unsubscribe();
   }, [user, isOpen]);
 
   // Arama filtresi
