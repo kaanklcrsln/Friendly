@@ -209,8 +209,17 @@ export default function GeneralChat() {
             type="text"
             value={messageText}
             onChange={(e) => {
+              console.log('GeneralChat: Input değişti:', e.target.value);
               setMessageText(e.target.value);
               setValidationError('');
+            }}
+            onKeyPress={(e) => {
+              console.log('GeneralChat: Key pressed:', e.key);
+              if (e.key === 'Enter') {
+                console.log('GeneralChat: Enter tuşuna basıldı');
+                e.preventDefault();
+                handleSendMessage(e);
+              }
             }}
             placeholder="Mesaj yaz... (Max 50 karakter)"
             disabled={loading}
@@ -226,6 +235,9 @@ export default function GeneralChat() {
           type="submit"
           disabled={loading || !messageText.trim()}
           className={styles.sendBtn}
+          onClick={(e) => {
+            console.log('GeneralChat: Gönder butonu tıklandı', { loading, messageText });
+          }}
         >
           {loading ? '...' : 'Gönder'}
         </button>
