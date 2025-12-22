@@ -55,7 +55,7 @@ export default function LoginPage() {
             <input
               id="email"
               type="email"
-              placeholder="kaankilicarslan@hacettepe.edu.tr"
+              placeholder="ornek@hacettepe.edu.tr"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
