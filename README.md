@@ -28,7 +28,7 @@ A GIS-based social platform with event discovery, real-time chat, and map integr
         └── utils/         # Helper functions
 ```
 
-## Getting Started
+## Getting Start
 
 ### Prerequisites
 
