@@ -1,8 +1,13 @@
 # Friendly
 
-A GIS-based social platform with event discovery, real-time chat, and map integration—powered by **Firebase Realtime Database**
+A GIS-based social platform with event discovery, real-time chat, and map integration—powered by **Firebase Realtime Database**.
 
-<img width="2816" height="1536" alt="friendly-banner" src="https://github.com/user-attachments/assets/e9ac594d-4255-47e2-b301-bafc721c2f84" />
+[![Join Us](https://img.shields.io/badge/Friendly-blue?style=for-the-badge&logo=github)](https://kaanklcrsln.github.io/friendly)
+[![YouTube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=github)](https://youtu.be/reQVporUV8A)
+
+<img width="2816" height="1536" alt="Gemini_Generated_Image_jppi57jppi57jppi" src="https://github.com/user-attachments/assets/fe2c63b4-7b8a-484d-a994-cfdb5cf0fc1f" />
+
+
 
 
 ## Project Structure
@@ -26,8 +31,86 @@ A GIS-based social platform with event discovery, real-time chat, and map integr
         ├── services/      # Business logic & Firestore queries
         └── utils/         # Helper functions
 ```
+##  User Roles & Access Control
 
-## Getting Start
+The platform supports **role-based access control (RBAC)** with two user types:
+
+###  User
+- Discover events on the interactive map  
+- Join public events  
+- Participate in real-time chat  
+- Manage their own profile and interactions  
+
+###  Admin
+- Full access to administrative operations  
+- Manage all events and users  
+- Perform moderation and system-level actions  
+
+> ⚠️ **Important**  
+> Admin access is **strictly restricted** to the repository owner:
+>
+> ```
+> Admin UID: kaanklcrsln
+> ```
+
+All admin-only routes and actions are protected on:
+- **Client side:** Route guards  
+- **Server side:** Middleware validation  
+
+using **Firebase Authentication** and custom role-based checks.
+
+---
+
+##  CRUD Operations
+
+The application fully implements **CRUD (Create, Read, Update, Delete)** operations for its core entities.
+
+###  Events
+- Create new events with geospatial data  
+- Read events dynamically from Firebase Realtime Database  
+- Update event details (time, location, description)  
+- Delete events (**admin-only**)  
+
+###  Messages (Realtime Chat)
+- Create messages in real time  
+- Read messages instantly via Firebase listeners  
+- Update message metadata (e.g. read status)  
+- Delete messages (**admin / moderation**)  
+
+###  Users
+- Read user profiles and presence status  
+- Update user-related data (limited to own account)  
+- Admin-level user management  
+
+All CRUD operations are synchronized in real time using **Firebase Realtime Database listeners**, ensuring **low-latency updates** across connected clients.
+
+---
+
+##  Performance Monitoring & Optimization
+
+To ensure scalability and responsiveness, the project applies multiple performance-focused strategies.
+
+###  Firebase Realtime Database
+- Real-time listeners instead of polling  
+- Structured data paths to minimize over-fetching  
+- Indexed queries for frequently accessed nodes  
+
+###  Frontend (React + Vite)
+- Code splitting and lazy-loaded routes  
+- Memoized components and custom hooks  
+- Optimized map rendering to prevent unnecessary re-renders  
+
+###  Backend (Node.js + Express)
+- Lightweight REST endpoints for admin and secure operations  
+- Firebase Admin SDK used only when necessary  
+- Middleware-based request validation to reduce overhead  
+
+###  Monitoring Tools
+- Firebase Console (Database & Authentication metrics)  
+- Server logs and request timing analysis  
+
+
+## Getting Started
 
 ### Prerequisites
 
